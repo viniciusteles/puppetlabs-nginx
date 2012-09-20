@@ -28,6 +28,14 @@ class nginx::config inherits nginx::params {
     ensure => directory,
   }
 
+  file { "${nginx::params::nx_conf_dir}/sites-available":
+    ensure => directory,
+  }
+
+  file { "${nginx::params::nx_conf_dir}/sites-enabled":
+    ensure => directory,
+  }
+
   file { "${nginx::config::nx_run_dir}":
     ensure => directory,
   }
