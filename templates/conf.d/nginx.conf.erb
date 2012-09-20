@@ -21,13 +21,36 @@ http {
   tcp_nopush  on;
   <% end %>
 
-  keepalive_timeout  <%= scope.lookupvar('nginx::params::nx_keepalive_timeout')%>;
   tcp_nodelay        <%= scope.lookupvar('nginx::params::nx_tcp_nodelay')%>;
 
   <% if scope.lookupvar('nginx::params::nx_gzip' == 'on') %> 
   gzip         on;
   gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+	gzip_comp_level 9;
+	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
   <% end %>
 
+  server_tokens off;
+  ## Start: Size Limits & Buffer Overflows ##
+  client_body_buffer_size  1K;
+  client_header_buffer_size 1k;
+  client_max_body_size 1k;
+  large_client_header_buffers 2 1k;
+  # END: Size Limits & Buffer Overflows ##
+
+  ## Start: Timeouts ##
+  client_body_timeout   10;
+  client_header_timeout 10;
+  keepalive_timeout     <%= scope.lookupvar('nginx::params::nx_keepalive_timeout')%>;
+  send_timeout          10;
+  ## End: Timeouts ## 
+
+  ## Only allow these request methods ##
+  if ($request_method !~ ^(GET|HEAD|POST)$ ) {
+    return 444;
+  }
+  ## Do not accept DELETE, SEARCH and other methods ##
+
   include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
 }

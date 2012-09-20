@@ -18,12 +18,12 @@ class nginx::params {
   $nx_run_dir  = '/var/nginx'
 
   $nx_conf_dir           = '/etc/nginx'
-  $nx_worker_processes   = 1
-  $nx_worker_connections = 1024
+  $nx_worker_processes   = 4
+  $nx_worker_connections = 4096
   $nx_multi_accept       = off
   $nx_sendfile           = on
-  $nx_keepalive_timeout  = 65
-  $nx_tcp_nodelay        = on
+  $nx_keepalive_timeout  = '5 5'
+  $nx_tcp_nodelay        = off
   $nx_gzip               = on
 
   $nx_proxy_redirect          = off
