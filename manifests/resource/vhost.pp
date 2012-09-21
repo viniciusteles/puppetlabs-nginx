@@ -37,7 +37,7 @@ define nginx::resource::vhost(
   $listen_port        = '80',
   $server_name        = undef,
   $www_root           = undef,
-  $template           = 'production',
+  $config             = 'production',
 ) {
 
   File {
@@ -49,7 +49,7 @@ define nginx::resource::vhost(
 
   file { "nginx-vhost-available-${name}":
     path      => "/etc/nginx/sites-available/${name}",
-    content   => template("nginx/vhost-${template}.erb"),
+    content   => template("nginx/vhost-${config}.erb"),
     notify    => Service['nginx'],
   }
 
