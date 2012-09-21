@@ -35,7 +35,7 @@ define nginx::resource::vhost(
   $ensure             = 'enable',
   $listen_ip          = '*',
   $listen_port        = '80',
-  server_name         = undef,
+  $server_name         = undef,
   $www_root           = undef
 ) {
 
