@@ -43,7 +43,7 @@ class nginx {
 
   class { 'nginx::service': }
 
-  nginx::logrotte { 'nginx': }
+  nginx::logrotate { 'nginx': }
 
   # Allow the end user to establish relationships to the "main" class
   # and preserve the relationship to the implementation classes through
