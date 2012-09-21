@@ -73,4 +73,7 @@ class nginx::config inherits nginx::params {
     purge   => true,
     recurse => true,
   }
+
+  nginx::logrotate { 'nginx': } 
+
 }
