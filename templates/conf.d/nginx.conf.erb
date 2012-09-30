@@ -1,5 +1,5 @@
 user <%= scope.lookupvar('nginx::config::nx_daemon_user') %>;
-worker_processes <%= scope.lookupvar('nginx::params::nx_worker_processes')%>;
+worker_processes <%= worker_processes_real %>;
 
 error_log  <%= scope.lookupvar('nginx::params::nx_logdir')%>/error.log;
 pid        <%= scope.lookupvar('nginx::params::nx_pid')%>;

@@ -16,7 +16,9 @@
 class nginx::config($worker_processes) inherits nginx::params {
 
   if $worker_processes != 'undef' {
-    $nx_worker_processes = $worker_processes
+    $worker_processes_real = $worker_processes
+  } else {
+    $worker_processes_real = $nx_worker_processes
   }
 
   File {
