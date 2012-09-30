@@ -28,7 +28,7 @@
 # node default {
 #   include nginx
 # }
-class nginx {
+class nginx($worker_processes = 'undef') {
 
   class { 'stdlib': }
 
@@ -37,6 +37,7 @@ class nginx {
   }
 
   class { 'nginx::config':
+    worker_processes => $worker_processes,
     require => Class['nginx::package'],
     notify  => Class['nginx::service'],
   }

@@ -13,7 +13,12 @@
 # Sample Usage:
 #
 # This class file is not called directly
-class nginx::config inherits nginx::params {
+class nginx::config($worker_processes) inherits nginx::params {
+
+  if $worker_processes != 'undef' {
+    $nx_worker_processes = $worker_processes
+  }
+
   File {
     owner => 'root',
     group => 'root',
