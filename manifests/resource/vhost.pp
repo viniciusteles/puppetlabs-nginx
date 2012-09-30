@@ -32,12 +32,13 @@
 #    ssl_key  => '/tmp/server.pem',
 #  }
 define nginx::resource::vhost(
+  $project_name,
   $ensure             = 'enable',
   $listen_ip          = '*',
   $listen_port        = '80',
   $server_name        = undef,
   $www_root           = undef,
-  $config             = 'production',
+  $environment        = 'development',
 ) {
 
   File {
@@ -47,17 +48,17 @@ define nginx::resource::vhost(
     mode   => '0644',
   }
 
-  file { "nginx-vhost-available-${name}":
-    path      => "/etc/nginx/sites-available/${name}",
-    content   => template("nginx/vhost-${config}.erb"),
+  file { "nginx-vhost-available-${project_name}":
+    path      => "/etc/nginx/sites-available/${project_name}",
+    content   => template("nginx/vhost-${environment}.erb"),
     notify    => Service['nginx'],
   }
 
-  file { "nginx-vhost-enabled-${name}":
-    path    => "/etc/nginx/sites-enabled/${name}",
-    target  => "/etc/nginx/sites-available/${name}",
+  file { "nginx-vhost-enabled-${project_name}":
+    path    => "/etc/nginx/sites-enabled/${project_name}",
+    target  => "/etc/nginx/sites-available/${project_name}",
     ensure  => link,
-    require => File["nginx-vhost-available-${name}"],
+    require => File["nginx-vhost-available-${project_name}"],
     notify  => Service['nginx'],
   }
 }
