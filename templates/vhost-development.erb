@@ -1,7 +1,7 @@
-upstream <%= project_name %>-unicorn {
+upstream <%= project_id %>-unicorn {
   # fail_timeout=0 means we always retry an upstream even if it failed
   # to return a good HTTP response (in case the Unicorn master nukes a single worker for timing out).
-  server unix:/tmp/<%= name %>.socket fail_timeout=0;
+  server unix:/tmp/<%= project_id %>.socket fail_timeout=0;
 }
 
 server {
@@ -11,11 +11,11 @@ server {
   access_log    off;
 
   location / {
-    try_files                   $uri/index.html $uri.html $uri @<%= project_name %>;
+    try_files                   $uri/index.html $uri.html $uri @<%= project_id %>;
   }
 
-  location @<%= project_name %> {
+  location @<%= project_id %> {
     include                    conf.d/proxy.conf;
-    proxy_pass                 http://<%= project_name %>-unicorn;
+    proxy_pass                 http://<%= project_id %>-unicorn;
   }
 }

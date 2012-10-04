@@ -41,6 +41,8 @@ define nginx::resource::vhost(
   $environment        = 'development',
 ) {
 
+  $project_id = "${project_name}_${environment}"
+
   File {
     ensure => present,
     owner  => root,
@@ -48,17 +50,17 @@ define nginx::resource::vhost(
     mode   => '0644',
   }
 
-  file { "nginx-vhost-available-${project_name}":
-    path      => "/etc/nginx/sites-available/${project_name}",
+  file { "nginx-vhost-available-${project_id}":
+    path      => "/etc/nginx/sites-available/${project_id}",
     content   => template("nginx/vhost-${environment}.erb"),
     notify    => Service['nginx'],
   }
 
-  file { "nginx-vhost-enabled-${project_name}":
-    path    => "/etc/nginx/sites-enabled/${project_name}",
-    target  => "/etc/nginx/sites-available/${project_name}",
+  file { "nginx-vhost-enabled-${project_id}":
+    path    => "/etc/nginx/sites-enabled/${project_id}",
+    target  => "/etc/nginx/sites-available/${project_id}",
     ensure  => link,
-    require => File["nginx-vhost-available-${project_name}"],
+    require => File["nginx-vhost-available-${project_id}"],
     notify  => Service['nginx'],
   }
 }
