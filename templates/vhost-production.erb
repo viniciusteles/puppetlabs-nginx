@@ -6,7 +6,7 @@ upstream <%= project_id %>-unicorn {
 
 server {
   listen        <%= listen_port %>; 
-  server_name   <%= server_name %> *.<%= server_name %>;
+  server_name   <%= server_names_real.join(" ") %> *.<%= server_names_real.join(" ") %>;
   root          <%= www_root %>;
   access_log    off;
 

@@ -36,12 +36,24 @@ define nginx::resource::vhost(
   $ensure             = 'enable',
   $listen_ip          = '*',
   $listen_port        = '80',
-  $server_name        = undef,
+  $server_names       = undef,
   $www_root           = undef,
   $environment        = 'development',
 ) {
 
   $project_id = "${project_name}_${environment}"
+
+  if type($server_names) == 'string' {
+    $server_names_real = [$server_names]
+  } else {
+    $server_names_real = $server_names
+  }
+
+  if $environment =~ /production/ {
+    $vhost_type = 'production'
+  } else {
+    $vhost_type = 'development'
+  }
 
   File {
     ensure => present,
@@ -52,7 +64,7 @@ define nginx::resource::vhost(
 
   file { "nginx-vhost-available-${project_id}":
     path      => "/etc/nginx/sites-available/${project_id}",
-    content   => template("nginx/vhost-${environment}.erb"),
+    content   => template("nginx/vhost-${vhost_type}.erb"),
     notify    => Service['nginx'],
   }
 
