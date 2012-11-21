@@ -8,7 +8,8 @@ server {
   listen        <%= listen_port %>; 
   server_name   <%= server_names_real.join(" ") %> <%= server_names_real.map { |name| "*.#{name}" }.join(" ") %>;
   root          <%= www_root %>;
-  access_log    off;
+  access_log    /var/log/nginx/<%= project_id %>.access.log;
+  error_log     /var/log/nginx/<%= project_id %>.error.log;
 
   if ($request_method !~ ^(GET|HEAD|POST)$ ) {
     return 444;
