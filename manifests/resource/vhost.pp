@@ -39,6 +39,7 @@ define nginx::resource::vhost(
   $server_names       = undef,
   $www_root           = undef,
   $environment        = 'development',
+  $content            = undef,
 ) {
 
   $project_id = "${project_name}_${environment}"
@@ -55,6 +56,12 @@ define nginx::resource::vhost(
     $vhost_type = 'development'
   }
 
+  if $content == 'undef' {
+    $vhost_content = template("nginx/vhost-${vhost_type}.erb")
+  } else {
+    $vhost_content = $content
+  }
+
   File {
     ensure => present,
     owner  => root,
@@ -64,7 +71,7 @@ define nginx::resource::vhost(
 
   file { "nginx-vhost-available-${project_id}":
     path      => "/etc/nginx/sites-available/${project_id}",
-    content   => template("nginx/vhost-${vhost_type}.erb"),
+    content   => $vhost_content,
     notify    => Service['nginx'],
   }
 
