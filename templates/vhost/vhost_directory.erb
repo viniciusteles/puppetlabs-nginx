@@ -1,0 +1,10 @@
+server {
+  listen        <%= listen_port %>;
+  server_name   <%= server_names_real.join(" ") %>;
+  root          <%= www_root %>;
+  access_log    off;
+  
+  location / {   
+    index  index.html index.htm;    
+  }
+}
