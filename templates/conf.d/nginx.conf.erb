@@ -44,7 +44,7 @@ http {
   send_timeout          10;
   ## End: Timeouts ## 
 
-  server_names_hash_bucket_size  64;
+  server_names_hash_bucket_size  128;
 
   include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
