@@ -13,12 +13,21 @@
 # Sample Usage:
 #
 # This class file is not called directly
-class nginx::config($worker_processes) inherits nginx::params {
+class nginx::config(
+  $worker_processes,
+  $logrotate_extension,
+) inherits nginx::params {
 
   if $worker_processes != 'undef' {
     $worker_processes_real = $worker_processes
   } else {
     $worker_processes_real = $nx_worker_processes
+  }
+
+  if $logrotate_extension != 'undef' {
+    $logrotate_extension_real = $logrotate_extension
+  } else {
+    $logrotate_extension_real = ''
   }
 
   File {
@@ -81,6 +90,7 @@ class nginx::config($worker_processes) inherits nginx::params {
     recurse => true,
   }
 
-  nginx::logrotate { 'nginx': } 
-
+  nginx::logrotate { 'nginx':
+    logrotate_extension => $logrotate_extension_real,
+  } 
 }

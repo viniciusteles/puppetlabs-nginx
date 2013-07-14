@@ -28,7 +28,10 @@
 # node default {
 #   include nginx
 # }
-class nginx($worker_processes = 'undef') {
+class nginx(
+  $worker_processes    = 'undef',
+  $logrotate_extension = 'undef',
+) {
 
   class { 'stdlib': }
 
@@ -37,7 +40,8 @@ class nginx($worker_processes = 'undef') {
   }
 
   class { 'nginx::config':
-    worker_processes => $worker_processes,
+    worker_processes    => $worker_processes,
+    logrotate_extension => $logrotate_extension,
     require => Class['nginx::package'],
     notify  => Class['nginx::service'],
   }
