@@ -1,4 +1,4 @@
-define nginx::logrotate($log_rotate_extension) {
+define nginx::logrotate($logrotate_extension) {
   file { "/etc/logrotate.d/nginx":
     ensure  => present,
     mode    => '0644',
