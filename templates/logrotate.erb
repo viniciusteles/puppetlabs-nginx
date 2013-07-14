@@ -13,7 +13,7 @@
 		fi \
 	endscript
 	postrotate
-    <%= logroate_extension %>
+    <%= logrotate_extension %>
     [ ! -f <%= nx_pid  %> ] || kill -USR1 `cat <%= nx_pid %>`
 	endscript
 }
