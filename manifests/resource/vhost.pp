@@ -39,7 +39,7 @@ define nginx::resource::vhost(
   $server_names       = undef,
   $www_root           = undef,
   $environment        = 'development',
-  $content            = undef,
+  $content            = 'undef',
 ) {
 
   $project_id = "${project_name}_${environment}"
